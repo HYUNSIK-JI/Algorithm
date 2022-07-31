@@ -33,7 +33,7 @@ for test_case in range(int(input())):
 	# 각 건물 건설 비용
 	costs = [0] + list(map(int, input().split()))
 
-	# 각 진입차수 마다 들어갈 건설비용을 메모제이션을 위한 리스트
+	# 각 진입차수 마다 들어갈 건설비용에 대한 메모제이션을 위한 리스트
 	dp = [0] * (v + 1) 
 	for _ in range(e):
 		a, b = map(int, input().split())
