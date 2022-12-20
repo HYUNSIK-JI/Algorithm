@@ -4,66 +4,71 @@ from heapq import heappush, heappop
 INF = sys.maxsize
 input = sys.stdin.readline
 
-dx = [0, 0, 1, -1]
-dy = [1, -1, 0, 0]
+class Solution():
+    def __init__(self):
+        self.n, self.m, self.t, self.d = map(int, input().split())
+        self.maps = []
+        self.row = []
+        self.dx = [0, 0, 1, -1]
+        self.dy = [1, -1, 0, 0]
+        self.q = []
+    def change(self):
+        self.row = list(input().rstrip())
+        for i in range(self.m):
+            k = ord(self.row[i])
+            if k >= 97:
+                self.row[i] = k - 71
+            else:
+                self.row[i] = k - 65
+        self.maps.append(self.row)
 
-def dijstra(s_x, s_y):
-    queue = []
-    heappush(queue, (0, s_x, s_y))
+    def dijstra(self, s_x, s_y):
+        queue = []
+        heappush(queue, (0, s_x, s_y))
 
-    dis = [[INF] * m for _ in range(n)]
-    dis[s_x][s_y] = 0
+        dis = [[INF] * self.m for _ in range(self.n)]
+        dis[s_x][s_y] = 0
 
-    while queue:
-        dist, x, y = heappop(queue)
+        while queue:
+            dist, x, y = heappop(queue)
 
-        if dis[x][y] < dist:
-            continue
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
+            if dis[x][y] < dist:
+                continue
+            for i in range(4):
+                nx = x + self.dx[i]
+                ny = y + self.dy[i]
 
-            if 0 <= nx < n and 0 <= ny < m:
-                g = maps[nx][ny] - maps[x][y]
+                if 0 <= nx < self.n and 0 <= ny < self.m:
+                    g = self.maps[nx][ny] - self.maps[x][y]
 
-                if abs(g) <= t:
-                    if g <= 0:
-                        time = 1
-                    else:
-                        time = g ** 2
-                    cost = dist + time
-                    if cost < dis[nx][ny]:
-                        dis[nx][ny] = cost
-                        heappush(queue, (cost, nx, ny))
-    return dis
-n, m, t, d = map(int, input().split())
+                    if abs(g) <= self.t:
+                        if g <= 0:
+                            time = 1
+                        else:
+                            time = g ** 2
+                        cost = dist + time
+                        if cost < dis[nx][ny]:
+                            dis[nx][ny] = cost
+                            heappush(queue, (cost, nx, ny))
+        return dis
+    def cal(self, n, m, lst):
+        for i in range(n):
+            for j in range(m):
+                if lst[i][j] <= self.d:
+                    heappush(self.q, (-self.maps[i][j], i, j))
+        return self.q
+    def ans(self, lst, S):
+        while lst:
+            dist, x, y = heappop(lst)
+            E = self.dijstra(x, y)
 
-maps = []
-dis = [[INF] * (m + 1) for _ in range(n + 1)]
+            if E[0][0] + S[x][y] <= self.d:
+                print(self.maps[x][y])
+                break
 
-for i in range(n):
-    row = list(input().rstrip())
-    for j in range(m):
-        k = ord(row[j])
-        if k >= 97:
-            row[j] = k - 71
-        else:
-            row[j] = k - 65
-    maps.append(row)
-
-S = dijstra(0, 0)
-
-q = []
-ans = 0
-for i in range(n):
-    for j in range(m):
-        if S[i][j] <= d:
-            q.append((i, j))
-
-while q:
-    x, y = q.pop()
-    E = dijstra(x, y)
-
-    if S[x][y] + E[0][0] <= d:
-        ans = max(ans, maps[x][y])
-print(ans)
+k = Solution()
+for _ in range(k.n):
+    k.change()
+s = k.dijstra(0, 0)
+w = k.cal(k.n, k.m, s)
+k.ans(w, s)
