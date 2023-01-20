@@ -8,17 +8,19 @@ dy = [1, -1, 0, 0]
 
 def change(*kwargs):
     a, b, c, d = kwargs
+    
     temp = maps[a][b]
     maps[a][b] = maps[c][d]
     maps[c][d] = temp
 
 def bfs(*kwargs):
-    visit = [[False] * 6 for _ in range(12)]
-
     a, b = kwargs
+    
     queue = deque()
     queue.append((a, b))
     temp.append((a, b))
+    
+    visit = [[False] * 6 for _ in range(12)]
     visit[a][b] = True
 
     while queue:
