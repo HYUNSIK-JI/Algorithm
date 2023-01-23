@@ -40,11 +40,4 @@ E = dijstra(s, 0)
 ans1 = S[m] + M[e]
 ans2 = E[e]
 
-if ans1 >= int(1e10):
-    print(-1, end=" ")
-else:
-    print(ans1, end=" ")
-if ans2 == int(1e10):
-    print(-1, end=" ")
-else:
-    print(ans2, end=" ")
+print(ans1 if ans1 < int(1e10) else -1, ans2 if ans2 < int(1e10) else -1)
