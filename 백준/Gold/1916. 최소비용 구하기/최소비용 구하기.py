@@ -35,5 +35,3 @@ s, e = map(int, input().split())
 
 dijstra(s)
 print(dis[e])
-
-
