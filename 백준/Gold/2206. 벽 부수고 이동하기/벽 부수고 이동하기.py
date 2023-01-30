@@ -1,33 +1,38 @@
 import sys
 from collections import deque
 
-dx=[0,0,-1,1]
-dy=[-1,1,0,0]
+input = sys.stdin.readline
 
-def BFS():
-	queue=deque()
-	queue.append([0,0,1])
-	visit=[[[0]*2 for _ in range(m)]for _ in range(n)]
-	visit[0][0][1]=1
+dx = [0, 0, 1, -1]
+dy = [1, -1, 0, 0]
 
-	while queue:
-		a,b,p=queue.popleft()
-		if a==n-1 and b==m-1:
-			return visit[a][b][p]
-		for i in range(4):
-			nx=dx[i]+a
-			ny=dy[i]+b
+def bfs():
+    queue = deque()
+    queue.append((0, 0, 1))
 
-			if 0<=nx<n and 0<=ny<m:
-				if graph[nx][ny]==1 and p==1:
-					visit[nx][ny][0]=visit[a][b][1]+1
-					queue.append([nx,ny,0])
-				elif graph[nx][ny]==0 and visit[nx][ny][p]==0:
-					visit[nx][ny][p]=visit[a][b][p]+1
-					queue.append([nx,ny,p])
-	return -1
+    visit[0][0][1] = 1
 
-n,m=map(int,sys.stdin.readline().split())
-graph=[list(map(int,sys.stdin.readline().rstrip())) for _ in range(n)]
+    while queue:
+        x, y, c = queue.popleft()
 
-print(BFS())
+        if x == n - 1 and y == m - 1:
+            return visit[x][y][c]
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+
+            if 0 <= nx < n and 0 <= ny < m:
+                if maps[nx][ny] and c:
+                    visit[nx][ny][0] = visit[x][y][1] + 1
+                    queue.append((nx, ny, 0))
+
+                if not maps[nx][ny] and not visit[nx][ny][c]:
+                    visit[nx][ny][c] = visit[x][y][c] + 1
+                    queue.append((nx, ny, c))
+    return -1
+n, m = map(int, input().split())
+maps = [list(map(int, input().rstrip())) for _ in range(n)]
+
+visit = [[[0] * 2 for _ in range(m)] for _ in range(n)]
+
+print(bfs())
