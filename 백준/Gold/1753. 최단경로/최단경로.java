@@ -1,14 +1,14 @@
 import java.io.*;
 import java.util.*;
 
-class Main {
-    public static class Point {
-        int idx, cost;
-        public Point(int idx, int cost) {
-            this.idx = idx;
-            this.cost = cost;
-        }
+class Point {
+    int idx, cost;
+    Point(int idx, int cost) {
+        this.idx = idx;
+        this.cost = cost;
     }
+}
+public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
