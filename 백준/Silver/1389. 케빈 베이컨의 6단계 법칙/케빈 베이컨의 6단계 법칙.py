@@ -1,33 +1,27 @@
 import sys
 
-input = sys.stdin.readline
-from collections import deque
+INF = sys.maxsize
 
-def BFS(a):
-    dis = [0] * (n + 1)
-    queue = deque()
-    queue.append(a)
-
-    while queue:
-        x = queue.popleft()
-
-        for i in maps[x]:
-            if not visit[i]:
-                visit[i] = True
-                dis[i] = dis[x] + 1
-                queue.append(i)
-    return sum(dis)
 n, m = map(int, input().split())
 
-maps = [[] for _ in range(n + 1)]
-visit = [False] * (n + 1)
+maps = [[INF] * n for _ in range(n)]
 
 for _ in range(m):
     a, b = map(int, input().split())
-    maps[a].append(b)
-    maps[b].append(a)
+    maps[a - 1][b - 1] = 1
+    maps[b - 1][a - 1] = 1
+
+for a in range(n):
+    for b in range(n):
+        if a == b:
+            maps[a][b] = 0
+
+for k in range(n):
+    for a in range(n):
+        for b in range(n):
+            maps[a][b] = min(maps[a][b], maps[a][k] + maps[k][b])
 ans = []
-for i in range(1, n + 1):
-    visit = [False] * (n + 1)
-    ans.append(BFS(i))
+
+for i in maps:
+    ans.append(sum(i))
 print(ans.index(min(ans)) + 1)
