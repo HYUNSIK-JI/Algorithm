@@ -1,23 +1,22 @@
 def solution(sequence, k):
-    # sequence의 길이
-    sequence_length = len(sequence)
-    
-    # 총합
-    hap = 0
-    
-    # index
+    start = 0
     end = 0
+    sequence_sum = sequence[0]
     
     answer = []
-    for index in range(sequence_length):
-        while hap < k and end < sequence_length:
-            hap += sequence[end]
+    
+    while start <= end and end < len(sequence):
+        if sequence_sum < k:
             end += 1
-        
-        if hap == k:
-            last_index = end - 1
-            
-            answer.append([index, last_index, last_index - index])
-        hap -= sequence[index]
-    answer.sort(key=lambda x:x[2])
+            if end < len(sequence):
+                sequence_sum += sequence[end]
+        elif sequence_sum > k:
+            sequence_sum -= sequence[start]
+            start += 1
+        else:
+            answer.append([start, end, end - start])
+            sequence_sum -= sequence[start]
+            start += 1
+    
+    answer.sort(key=lambda x: x[2])
     return answer[0][0:2]
