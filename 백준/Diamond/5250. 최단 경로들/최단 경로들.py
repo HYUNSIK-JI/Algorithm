@@ -11,6 +11,7 @@
 # 2) 현재 문제로서 size의 크기를 적절하게 해야 한다.
 # 3) 2번과 다른 방식 으로서 리스트의 overallocation 줄이기 위해 튜플 로 변환한다.
 # 4) 1번, 2번 과 다른 방식 으로서 인접 행렬이 아닌 인접 리스트로 접근 한다.
+# 5) give up
 import sys
 from heapq import heappush, heappop
 
