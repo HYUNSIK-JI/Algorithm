@@ -1,0 +1,3 @@
+select
+    ROUND(SUM(IFNULL(fish.LENGTH, 10)) / COUNT(1), 2) AS AVERAGE_LENGTH
+from FISH_INFO as fish
